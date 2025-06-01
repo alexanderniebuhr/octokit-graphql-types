@@ -3,10 +3,9 @@ import { Octokit } from "@octokit/core";
 import { paginateRest } from "@octokit/plugin-paginate-rest";
 import { restEndpointMethods } from "@octokit/plugin-rest-endpoint-methods";
 import { retry } from "@octokit/plugin-retry";
+import { graphql } from "@octokit/graphql";
 
-export const octokitFromCore = new Octokit()
-
-const fromCore = octokitFromCore.graphql({
+const fromGraphl = await graphql({
   query: `query($owner: String!, $repo: String!, $number: Int!) {
       repository(owner: $owner, name: $repo) {
         pullRequest(number: $number) {
@@ -24,6 +23,31 @@ const fromCore = octokitFromCore.graphql({
   repo: "",
   number: "",
 });
+
+
+export const octokitFromCore = new Octokit({
+  auth: ""
+})
+
+const fromCore = await octokitFromCore.graphql({
+  query: `query($owner: String!, $repo: String!, $number: Int!) {
+      repository(owner: $owner, name: $repo) {
+        pullRequest(number: $number) {
+          closingIssuesReferences(first: 50) {
+            nodes {
+              number
+              title
+              url
+            }
+          }
+        }
+      }
+    }`,
+  owner: "",
+  repo: "",
+  number: "",
+});
+
 
 
 export const app = new App({
