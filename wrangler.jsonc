@@ -1,6 +1,8 @@
 {
-  "name": "cloudflare-vite-get-started",
+  "name": "octokit-graphql-types",
   "compatibility_date": "2025-04-03",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "main": "./src/index.ts"
 }
